@@ -5,6 +5,9 @@
         "paths": {
             "c/helloWorld": [
                 "helloWorld/helloWorld.js"
+            ],
+            "c/lwcv2": [
+                "lwcv2/lwcv2.js"
             ]
         }
     },
