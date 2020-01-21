@@ -1,0 +1,11 @@
+<apex:page controller="RidiculousController" tabStyle="Opportunity">
+
+    <apex:pageBlock Title="The Big Opportunity">
+        <apex:pageBlockSection title="Here we go">
+            <apex:pageblockSectionItem >
+            </apex:pageblockSectionItem>
+        </apex:pageBlockSection>
+    
+    </apex:pageBlock>
+ 
+</apex:page>

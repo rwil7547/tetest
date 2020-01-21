@@ -1,0 +1,9 @@
+.THIS .slds-list__item{
+    width: 300px;
+    float: left;
+    margin: 4px!important;
+}
+
+.THIS .slds-m-bottom--medium{
+    padding-top:10px;
+}

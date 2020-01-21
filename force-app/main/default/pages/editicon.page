@@ -1,0 +1,9 @@
+<apex:page >
+        <div class="editcontainer">
+            <img id="editImage"
+                src="{!$Resource.EditIcon}" 
+                alt="Edit image" 
+                style="width: 5%"
+                />
+        </div >
+</apex:page>

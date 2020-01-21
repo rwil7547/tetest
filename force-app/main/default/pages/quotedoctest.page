@@ -1,0 +1,26 @@
+<apex:page renderAs="PDF" applyBodyTag="false" standardController="Opportunity">
+    <head>
+  <style>
+      .thisStyle {
+          font-weight:bold;
+          color:red; 
+      }
+      @bottom-right {
+content: "Page " counter(page) " of " counter(pages);
+}
+      
+  </style>
+    </head>
+    <body>
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1 class="thisStyle ">Congratulations {!Opportunity.Name}</h1>
+  This is your new Page: quotedoctest
+  <!-- End Default Content REMOVE THIS -->
+  
+  <div style="page-break-after:always;"/>
+
+    <div>hello</div>
+
+
+    </body>
+</apex:page>

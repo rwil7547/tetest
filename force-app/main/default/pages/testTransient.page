@@ -1,0 +1,17 @@
+<apex:page controller="ExampleControllerT">
+  T1: {!t1} <br/>
+  T2: {!t2} <br/>
+  <apex:form >
+    <apex:commandLink value="refresh"/>
+  </apex:form>
+  
+  <apex:pageBlock >
+
+  <apex:pageBlockTable value="{!1}" var="this">
+      <apex:column headerValue="test" value="{!this}" />
+  </apex:pageBlockTable>  
+  
+  </apex:pageBlock>
+
+  
+</apex:page>

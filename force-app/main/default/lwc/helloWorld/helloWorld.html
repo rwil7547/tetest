@@ -1,0 +1,35 @@
+<template>
+    <div style="position: relative;">
+        <div style="position: relative;width:100%;height:100%;" class="slds-card">
+            <div class="slds-m-around--medium">
+                <lightning-input type="toggle"
+                            label="Relocate mode"
+                            checked={relocate}
+                            onchange={toggleRelocate}>
+                </lightning-input>
+            </div>
+
+            <div class="slds-grid" style="position:relative;width:100%;height:100%;">
+                <div  class="slds-p-around-medium slds-col slds-size-3-of-4 slds-is-relative">
+                    <div class="slds-p-around-medium">
+                        <img src={parkMapUrl} width="100%"></img>
+                        <template if:true={selectedPitch}>
+                            <img src={marker} width="70px" style={selectedPitch.style} class="pin-icon"
+                            draggable={relocate} ondrag={checkPos}></img>
+                        </template>
+                    </div>
+                </div>
+                <div class="slds-p-around-medium slds-col slds-size-1-of-4 slds-is-relative">
+                    <div class="slds-m-around_medium">
+                        <template if:true={pitches}>
+                            <template for:each={pitches} for:item="pitch">
+                                <p key={pitch.number} onclick={log} class="num"
+                                data-num={pitch.number}>{pitch.number}  {pitch.status}</p>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

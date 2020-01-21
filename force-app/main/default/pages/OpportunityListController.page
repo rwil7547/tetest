@@ -1,0 +1,30 @@
+<apex:page controller="OpportunityListController">
+    <apex:form >
+        <apex:pageBlock title="Opportunity List" id="opportunity">
+            
+            <!-- Contacts List goes here -->
+            <apex:pageBlockTable value="{!Opportunities}" var="opp">
+            
+                <apex:column value="{!opp.Name }"/>
+                <apex:column value="{!opp.Id }"/>
+                <apex:column value="{!opp.CloseDate }"/>
+                <apex:column value="{!opp.Amount }">
+                     <apex:facet name="header">
+                        <apex:commandLink action="{!sortByAmount}"
+                               reRender="opportunity">Amount
+                        </apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                <apex:column value="{!opp.Type}" >
+                     <apex:facet name="header">
+                        <apex:commandLink action="{!sortByType}"
+                               reRender="opportunity">Type
+                        </apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                
+            </apex:pageBlockTable>
+
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,10 @@
+<apex:page controller="MyDemoWrapper">
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!rowList}" var="row">
+            <apex:column title="FirstName" value="{!row.Name}"/>
+            <apex:column value="{!row.Name}"/>
+            <apex:column value="{!row.Name}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+
+</apex:page>

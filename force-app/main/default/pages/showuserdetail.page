@@ -1,0 +1,11 @@
+<apex:page >
+    <apex:outputText label="Your position" value="{!$Profile.Name}" />
+    <apex:form >
+    <apex:inputTextArea label="Enter info" />
+    </apex:form>
+   Good morning, you are the {!$Profile.Name}, and your name is {!$User.FirstName}. <br/>
+   What we can do is get the {!$Profile.Id} <br/>
+   
+   <h1 fontsize="60"> Hello </h1>
+   
+</apex:page>

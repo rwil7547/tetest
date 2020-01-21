@@ -1,0 +1,11 @@
+<aura:component implements="flexipage:availableforallpagetypes">
+    
+    <aura:attribute name="title" type="string" access="global" default="Race Tracker" />
+
+    <div class="slds">
+        <div class="slds-page-header" >
+            <p class="slds-page-header__title" title="{!v.title}">{!v.title}</p>
+        </div>  
+    </div>
+        
+</aura:component>

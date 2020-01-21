@@ -1,0 +1,293 @@
+<apex:page lightningStylesheets="true" controller="OppRemoter4">
+
+
+    <style>
+    #weekdays {
+    width:91vw;
+    height:30px;
+    //background-color:#C0C0C0;
+    display: grid;
+    grid-template-columns: 13vw 13vw 13vw 13vw 13vw 13vw 13vw ;
+    margin-left: auto;
+    margin-right: auto;    
+    margin-top: 20px;
+    margin-bottom: auto;  
+    position: sticky;
+    top: 5px; 
+    text-align: center;
+    font-weight: bold;
+    }
+    #backdrop {
+    width:91vw;
+    height:91vh;
+    background-color:#C0C0C0;
+    display: grid;
+    grid-template-columns: 13vw 13vw 13vw 13vw 13vw 13vw 13vw ;
+    grid-auto-rows: max-content;
+    margin-left: auto;
+    margin-right: auto;    
+    margin-bottom: auto;  
+    overflow: scroll;  
+    }
+    .day {   
+    border: 0.2px solid #c6c4c4;
+    padding: 0.2vw;
+    height: auto;
+    min-height: 100px;
+    overflow-y: visible;
+    position: relative;
+    color: #7b7b7b;
+    }
+    .odd {
+    background-color: #f0f0f0;
+    }    
+    .even {
+    background-color: white; //#feffff //#ced6e2;
+    }
+    ::-webkit-scrollbar { 
+    display: none; 
+    }
+    .event {
+    border-radius: 7px;
+    border: 1px solid #c1c0bd;
+    background-image:  linear-gradient(#e9c818, #eccb18, #d5b501); //#bf645d;
+    padding: 2px;
+    cursor: pointer; 
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;     
+    white-space: nowrap; 
+    position: absolute;
+    height: 25px;
+    }
+    .opportuntiy {
+    background-color:  linear-gradient(red, yellow, green);
+    
+    }
+
+    </style>
+
+        <div id="weekdays">
+            <div > Monday</div>
+            <div> Tuesday</div>
+            <div> Wednesday</div>
+            <div> Thursday</div>
+            <div> Friday</div>
+            <div> Saturday</div>            
+            <div> Sunday</div>                
+        </div> 
+    
+        <div  id="backdrop">
+        </div>   
+
+    <script>
+
+         var calendar     = document.getElementById('backdrop');         
+         var start        = new Date("01/01/2017");
+         var end          = new Date("12/31/2018");         
+         var takenMap     = new Map();        
+         var block        = 1;
+
+         window.addEventListener('load', function(e) {       
+             
+             var startDay = (start.getDay() == 0) ? 7 : start.getDay();
+             
+             while (block < startDay){
+                 calendar.innerHTML  += '<div ></div>';
+                 block ++;        
+             }
+             
+             var loop       = new Date(start);
+             var zIndex     = 1000;              
+             var colorClass = 'odd';
+             
+             while (loop <= end){
+                 
+                 var day = loop.getDate();
+                 var dayId = makeId(loop);
+                 
+                 if (day == 1){
+                 
+                     if (loop.getMonth() % 2 == 0){
+                         colorClass = 'even';
+                     } else {
+                         colorClass = 'odd';
+                     }
+                 
+                     var monthText;
+                     var monthNumber = loop.getMonth();
+                     switch (monthNumber) {
+    
+                      case 0: monthText = "January";
+                      break;    
+                      case 1: monthText = "February";
+                      break;
+                      case 2: monthText = "March";
+                      break;
+                      case 3: monthText = "April";
+                      break;
+                      case 4: monthText = "May";
+                      break;
+                      case 5: monthText = "June";
+                      break;
+                      case 6: monthText = "July";
+                      break;
+                      case 7: monthText = "August";
+                      break;
+                      case 8: monthText = "September";
+                      break;
+                      case 9: monthText = "October";
+                      break;
+                      case 10: monthText = "November";
+                      break;
+                      case 11: monthText = "December";
+                    }             
+                 
+                     day += ' ' + monthText + ' ' + loop.getYear();
+                 }
+                 
+                 var dayEntry = '<div class=\"day' + ' ' + colorClass + '\" ' +     
+                                 ' id=\"' + dayId + '\"' + ' style=\" z-index:' + zIndex + '\">' + day + '</div>';                                  
+                 
+                 calendar.innerHTML  += dayEntry;                                 
+                 var newDate         = loop.setDate(loop.getDate() + 1);
+                 loop                = new Date(newDate);
+                 zIndex --;                 
+             }                
+
+            getOpportunities(); 
+        }, true);
+        
+        
+        function getOpportunities() {
+            Visualforce.remoting.timeout = 120000; 
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.OppRemoter4.getOpps}',
+                start,
+                end, 
+                handleOpportunities
+            );
+        }
+    
+        function handleOpportunities(result, event) {
+
+            for (var x = 0; x < result.length; x++){
+            
+                var startDate       = new Date(result[x].CloseDate);
+                var start           = (startDate.getDay() == 0) ? 7 : startDate.getDay();  
+                var endDate         = new Date(result[x].Event_End__c);
+                var end             = (endDate.getDay() == 0) ? 7 : endDate.getDay();  
+                var trueLength      = daysBetween(startDate, endDate);
+                var length          = trueLength;
+                var startOfWeek     = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() - start + 1);                
+                var name            = startDate.getDate() + ' - ' + endDate.getDate() + ' ' + result[x].Name.substr(0,5);                  
+                
+                if ((start + trueLength -1) > 7) {
+                   
+                   var chunkDates    = new Array();                  
+                   end               = 7;
+                   length            = (end - start) + 1;                    
+                   var lastDayOfWeek = new Date(startOfWeek.getFullYear(),startOfWeek.getMonth(),startOfWeek.getDate() + 13);
+                   
+                   while (lastDayOfWeek < endDate){                              
+                       chunkDates.push(lastDayOfWeek);
+                       lastDayOfWeek = new Date(lastDayOfWeek.getFullYear(),lastDayOfWeek.getMonth(),lastDayOfWeek.getDate() + 7);                                                                    
+                   }
+                   
+                   chunkDates.push(endDate);
+                   
+                   for (var y = 0; y < chunkDates.length; y++){                   
+                       chunkAllocate(null, chunkDates[y],name,result[x].Id);                       
+                   }
+
+                   endDate = new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate() + (length - 1));
+                   
+                   chunkAllocate(startDate, endDate, name, result[x].Id);                                        
+
+                } else {                
+
+                   chunkAllocate(startDate, endDate ,name, result[x].Id);                 
+
+                }                                  
+            }    
+         }
+         
+         
+         function chunkAllocate(startDate, endDate, name, Id) {
+         
+                var start;    
+                if (startDate == null){
+                    start = 1;
+                } else {
+                    start = (startDate.getDay() == 0) ? 7 : startDate.getDay();                   
+                }
+                                
+                var end             = (endDate.getDay() == 0) ? 7 : endDate.getDay();  
+                var startOfWeek     = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate() - end + 1);                
+                var trueLength      = (startDate != null) ? daysBetween(startDate, endDate) : daysBetween(startOfWeek, endDate);
+                var length          = trueLength;
+                var weekId          = makeId(startOfWeek);
+                var patch           = ('1').repeat(length);  
+                var index           = 0;  
+                var day             = document.getElementById(weekId);                                                           
+                
+                var left            = 13 * (start - 1);
+                var cssLeft         = left + 'vw';
+                var width           = (13 * length) - 0.4;                            
+                var cssWdith        = width + 'vw';
+
+                var complete        = false;
+                
+                while (!complete) {                
+                    var rowId      = weekId + index.toString();
+                    var height    = 26 * index;
+                    var cssHeight = height + 'px';
+                
+                    if (takenMap.has(rowId)) {
+
+                        var rowString  = takenMap.get(rowId); 
+                        var current    = rowString.substr(start - 1, length);
+                        var match      = ('0').repeat(length);                                                       
+                        
+                        if (current == match) {               
+                            var first   = rowString.substr(0,start -1);
+                            var last    = rowString.substring(end);
+                            var cover   = first + patch + last;
+                            complete = true;
+                            takenMap.set(rowId,cover);                                 
+                        } else {
+                            index = index + 1;                        
+                        }                                        
+                    } else {
+                        var first  = ('0').repeat(start - 1);
+                        var last   = ('0').repeat(7 - end);
+                        var cover  = first + patch + last;
+                        complete   = true;
+                        takenMap.set(rowId,cover);
+                        day.style.height = height + 50 + 'px';  
+                        complete = true;                      
+                    }                
+                }                                             
+
+                day.innerHTML += '<div class=\"event\"' + 'id=\"' + Id + '\" style=\"margin-top:' + cssHeight + 
+                                    ';margin-left:' + cssLeft + ';width:' + cssWdith + '\">' 
+                                    + name + ' (over ' + trueLength + 'days)</div>';
+                                                                                     
+         }
+
+         function makeId(date1){
+             var date   = new Date(date1);
+             var Id     = 'day' + date.getDate() + 'month' + date.getMonth() + 'year' + date.getYear();
+             return Id;
+         }
+
+         function daysBetween( date1, date2 ) {
+             var one_day        = 1000*60*60*24;
+             var date1_ms       = date1.getTime();
+             var date2_ms       = date2.getTime();
+             var difference_ms  = date2_ms - date1_ms;
+             return Math.round(difference_ms/one_day) + 1; 
+         }
+                
+    </script>
+</apex:page>

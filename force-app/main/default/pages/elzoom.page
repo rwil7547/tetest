@@ -1,0 +1,347 @@
+<apex:page >
+<html>
+​
+  <head>
+    <link rel="stylesheet" type="text/css" href="https://appitek.com/ui/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/forge.css"/>
+    <script type="text/javascript" src="https://appitek.com/ui/fa.js"></script>
+    <style>
+      html, body, canvas {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+      }
+      .tools {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: blue;
+      }
+    </style>
+  </head>
+​
+  <body>
+​
+    <canvas width="800" height="600" id="canvas"></canvas>
+​
+    <script type="text/javascript">
+      var _canvas = document.getElementById('canvas');
+      _canvas.width = window.innerWidth;
+      _canvas.height = window.innerHeight;
+      _canvas.style.background = '#394F60';
+      var _context = _canvas.getContext('2d');
+​
+      var _scale = 1;
+​
+      var links = [
+        { start: 1, end: 2 },
+        { start: 1, end: 3 },
+        { start: 1, end: 4 },
+        { start: 2, end: 3 },
+        { start: 2, end: 1 },
+        { start: 3, end: 1 },
+        { start: 3, end: 4 },
+      ];
+​
+      var mouseX = 0;
+      var mouseY = 0;
+      var mouseXOffset = 0;
+      var mouseYOffset = 0;
+​
+      var midX = _canvas.width / 2;
+      var midY = _canvas.height / 2;
+​
+      var pan = false;
+      var panX = 0;
+      var panY = 0;
+      var panXOffset = 0;
+      var panYOffset = 0;
+​
+      var fps = 0;
+      var tick = 0;
+​
+      var objects = [
+        {id: 1, x: 16, y: 32, width: 256, height: 96, selected: false},
+        {id: 2, x: 32, y: 96, width: 256, height: 96, selected: false },
+        {id: 3, x: 96, y: 64, width: 256, height: 96, selected: false },
+        {id: 4, x: 126, y: 32, width: 256, height: 96, selected: false },
+      ];
+​
+      objects.forEach(function(object) {
+        object.tx = function() {
+          return pan == true ? this.x - panXOffset : this.x;
+        }
+        object.ty = function() {
+          return pan == true ? this.y - panYOffset : this.y;
+        }
+      })
+​
+      var selected = null;
+​
+      function startLoop() {
+        renderLoop();
+      }
+​
+​
+      var lastX = _canvas.width / 2;
+      var lastY = _canvas.height / 2;
+​
+​
+​
+      _canvas.addEventListener('wheel', function(event) {
+        // set mouse co-ords based on scale
+        var modify = event.deltaY > 0 ? -0.1 : 0.1;
+        _scale += modify;
+        console.log(_scale);
+        pan = true;
+        midX = _canvas.width / _scale / 2;
+        midY = _canvas.height / _scale / 2;
+        mouseX = event.clientX / _scale - _canvas.offsetLeft;
+        mouseY = event.clientY / _scale - _canvas.offsetTop;
+        _context.setTransform(1, 0, 0, 1, 0, 0);
+              _context.scale(_scale,_scale);
+        midX = _canvas.width / _scale / 2;
+        midY = _canvas.height / _scale / 2;
+        updateLinks();
+        renderLoop();
+        pan = false;
+      })
+​
+      function renderLoop() {
+        console.log('render');
+        // reset canvasvar p1 = _context.transformedPoint(0,0);
+​
+        _context.save();
+        _context.setTransform(1, 0, 0, 1, 0, 0);
+              _context.clearRect(0, 0, _context.canvas.width, _context.canvas.height);
+        _context.restore();
+​
+        // draw lookups
+        _context.strokeStyle = '#ff00ff';
+        _context.lineWidth = 1.5;
+        links.forEach(function(link) {
+          _context.beginPath();
+          _context.moveTo(link.startX, link.startY);
+          _context.bezierCurveTo(link.midX1, link.midY1, link.midX2, link.midY2, link.endX, link.endY);
+          _context.stroke();
+        })
+        // draw objects
+        objects.forEach(function(object) {
+          if (object.selected == false) {
+            _context.fillStyle = '#0000FF';
+            drawObject(object.tx(), object.ty(), object.width, object.height, 6, false);
+          }
+        })
+        // draw nodes
+        _context.strokeStyle = '#ff00ff';
+        _context.fillStyle = '#ff00ff';
+        _context.lineWidth = 1.5;
+        links.forEach(function(link) {
+          _context.beginPath();
+          _context.arc(link.endX, link.endY, 2, 0, 2*Math.PI);
+          _context.fill();
+          _context.stroke();
+        })
+        // draw selected
+        if (selected) {
+          _context.fillStyle = '#00FFFF';
+          drawObject(selected.tx(), selected.ty(), selected.width, selected.height, 6, true);
+        }
+        // draw debugs
+        _context.fillStyle = '#00FF00';
+        _context.fillRect(mouseX, mouseY, 6, 6);
+        _context.fillStyle = '#00FFFF';
+        _context.fillRect(panX, panY, 2, 2);
+        _context.fillStyle = '#FFFF00';
+        _context.fillRect(midX, midY, 2, 2);
+      }
+​
+      // on mouse down
+      _canvas.addEventListener('mousedown', function(event) {
+        lastX = event.offsetX;
+        lastY = event.offsetY;
+        // set pan status
+        if (pan == false) {
+          pan = true;
+          panX = event.clientX / _scale - _canvas.offsetLeft;
+          panY = event.clientY / _scale - _canvas.offsetTop;
+        }
+        // get selected object under mouse if any
+        objects.forEach(function(object, i) {
+          object.selected = false;
+          if (selected == null && mouseY > object.y && mouseY < object.y + object.height &&
+          mouseX > object.x && mouseX < object.x + object.width) {
+            object.selected = true;
+            selected = object;
+            mouseXOffset = object.x - mouseX;
+            mouseYOffset = object.y - mouseY;
+          }
+        })
+        renderLoop();
+      }, false);
+​
+      // on mouse up
+      _canvas.addEventListener('mouseup', function(event) {
+        // unselect objects, and make temp x,y co-ords permanent
+        objects.forEach(function(object) {
+          object.x = object.tx();
+          object.y = object.ty();
+          object.selected = false;
+        });
+        // turn off pan and selection
+        selected = null;
+        panXOffset = 0;
+        panYOffset = 0;
+        pan = false;
+        renderLoop();
+      });
+​
+      // on mouse move
+      _canvas.addEventListener('mousemove', function(event) {
+        // set mouse co-ords based on scale
+        mouseX = event.clientX / _scale - _canvas.offsetLeft;
+        mouseY = event.clientY / _scale - _canvas.offsetTop;
+        // move selected element if we have selected one
+        if (selected) {
+          selected.x = mouseX + mouseXOffset;
+          selected.y = mouseY + mouseYOffset;
+          updateLinks();
+          renderLoop();
+        }
+        // pan canvas if we are panning
+        if (pan == true && !selected) {
+          panXOffset = panX - mouseX;
+          panYOffset = panY - mouseY;
+          updateLinks();
+          renderLoop();
+        }
+      });
+​
+      
+​
+      function updateLinks(link) {
+        var offset = 32;
+        links.forEach(function(link) {
+          var start = getObject(link.start);
+          var end = getObject(link.end);
+​
+          var startSide = getSide(start, end);
+          var endSide = getSide(end, start);
+          // get start co-ords
+          link.startX = getNodeX(startSide, start.tx(), start.width);
+          link.startY = getNodeY(startSide, start.ty(), start.height);
+          // get end co-ords
+          link.endX = getNodeX(endSide, end.tx(), end.width);
+          link.endY = getNodeY(endSide, end.ty(), end.height);
+          // get beziar midpoints
+          link.midX1 = getNodeMX(startSide, link.startX, offset);
+          link.midY1 = getNodeMY(startSide, link.startY, offset);
+          link.midX2 = getNodeMX(endSide, link.endX, offset);
+          link.midY2 = getNodeMY(endSide, link.endY, offset);
+          // get midpoint tangets
+          link.midX = link.midX1 + (link.midX2 - link.midX1) * 0.50;
+          link.midY = link.midY1 + (link.midY2 - link.midY1) * 0.50;
+        })
+      }
+​
+      function getNodeX(side, x, width) {
+        return side == 'LEFT' ? x : side == 'RIGHT' ? x + width : x + (width / 2);
+      }
+​
+      function getNodeMX(side, x, offset) {
+        return side == 'LEFT' ? x - offset : side == 'RIGHT' ? x + offset : x;
+      }
+​
+      function getNodeY(side, y, height) {
+        return side == 'LEFT' || side == 'RIGHT' ? y + (height / 2) : side == 'BOTTOM' ? y + height : y;
+      }
+​
+      function getNodeMY(side, y, offset) {
+        return side == 'BOTTOM' ? y + offset : side == 'TOP' ? y - offset : y;
+      }
+​
+      function getObject(id) {
+        var match = objects.filter(function(object) {
+          return object.id == id;
+        });
+        if (match.length > 0) return match[0];
+        return null;
+      }
+​
+      function getSide(start, end) {
+        var side = '';
+        if (start.y > end.y) {
+          side = 'TOP';
+        }
+        if (start.y < end.y) {
+          side = 'BOTTOM';
+        }
+        if (start.y >= end.y && start.y <= (end.y + end.height)) {
+          if (start.x + start.width < end.x) {
+            side = 'RIGHT';
+          }
+          if (start.x > end.x + end.width) {
+            side = 'LEFT';
+          }
+        }
+        if (end.y >= start.y && end.y <= (start.y + start.height)) {
+          if (end.x + end.width < start.x) {
+            side = 'LEFT';
+          }
+          if (end.x > start.x + start.width) {
+            side = 'RIGHT';
+          }
+        }
+        return side;
+      }
+​
+      function drawObject(x, y, width, height, radius, selected) {
+        // draw card
+        
+        _context.shadowBlur = selected == true ? 6 : 0;
+        _context.shadowColor = "orange";
+        _context.beginPath();
+        _context.moveTo(x + radius, y);
+        _context.lineTo(x + width - radius, y);
+        _context.quadraticCurveTo(x + width, y, x + width, y + radius);
+        _context.lineTo(x + width, y + height - radius);
+        _context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        _context.lineTo(x + radius, y + height);
+        _context.quadraticCurveTo(x, y + height, x, y + height - radius);
+        _context.lineTo(x, y + radius);
+        _context.quadraticCurveTo(x, y, x + radius, y);
+        _context.closePath();
+        _context.fillStyle = '#263540';
+        _context.fill();
+        // draw text
+        _context.shadowBlur = 0;
+        _context.shadowOffsetX = 0;
+        _context.shadowOffsetY = 0;
+        _context.fillStyle = '#FFFFFF';
+        _context.font = '14px Source Sans Pro';
+        _context.fillText('Object Label', x + 10, y + 20);
+        _context.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        _context.font = '12px Source Sans Pro';
+        _context.fillText('Object Name', x + 10, y + 38);
+        // 14px 400 10x 10y white 1
+        // 12px 400 10x 20y white 0.7
+        // draw fields
+        _context.fillStyle = '#1D2830';
+        _context.fillRect(x + 10, y + 48, width - 20, 26);
+        _context.fillStyle = '#FFFFFF';
+        _context.font = '12px Source Sans Pro';
+        _context.fillText('Fields (10)', x + 16, y + 65);
+        // width - 20 height 26 line #1D2830 
+        // 12px 400 ? white 0.7
+      }
+​
+​
+      updateLinks();
+      startLoop();
+​
+    </script>
+​
+  </body>
+​
+</html>
+</apex:page>

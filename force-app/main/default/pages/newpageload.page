@@ -1,0 +1,12 @@
+<apex:page >
+  <head>
+    <script type="text/javascript">
+      window.onbeforeunload = function() {
+          return "Did you save your stuff?"
+      }
+    </script>
+  </head>
+  <h1>Congratulations</h1>
+  This is your new Page: newpageload
+  <!-- End Default Content REMOVE THIS -->
+</apex:page>

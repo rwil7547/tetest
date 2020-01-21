@@ -1,0 +1,7 @@
+<apex:page lightningStylesheets="true">
+
+   <div class="slds-scope">
+      <apex:slds />
+       <div class="slds-brand-band slds-brand-band_cover slds-brand-band_medium slds-template_bottom-magnet brand-band_magnetic forceBrandBand"></div>
+   </div>
+</apex:page>

@@ -1,0 +1,38 @@
+<apex:page standardController="Account">
+    <apex:pageBlock title="Show detail" >
+        <apex:pageBlockSection >
+            <apex:outputField value="{! Account.Name }"/>
+            <apex:outputField value="{! Account.Phone }"/>
+            <apex:outputField value="{! Account.Industry }"/>
+            <apex:outputField value="{! Account.AnnualRevenue }"/>       
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    <apex:pageBlock >
+        <apex:relatedList list="Contacts"/>
+        <apex:relatedList list="Opportunities" pageSize="0"/> 
+    </apex:pageBlock>
+   <apex:pageBlock title="Contacts">
+       <apex:pageBlockTable value="{!Account.contacts}" var="contact">
+          <apex:column value="{!contact.Name}"/>
+          <apex:column value="{!contact.Title}"/>
+          <apex:column value="{!contact.Phone}"/>
+       </apex:pageBlockTable>
+    </apex:pageBlock>
+    <!-- This is a comment -->
+    <apex:pageBlock title="Opportunities">
+        <apex:pageblockTable value="{!Account.opportunities}" var="opp">
+            <apex:column value="{!opp.Name}"/>
+            <apex:column value="{!opp.StageName}"/>
+            <apex:column value="{!opp.CloseDate}"/>
+            <apex:column value="{!opp.Amount}"/>
+        </apex:pageblockTable>
+    </apex:pageBlock>
+    <apex:pageBlock >
+    <apex:form >
+        <apex:pageblockSection >
+            <apex:outputText style="font-weight: bold;" value="hello">Hello</apex:outputText>
+                <apex:inputField value="{!Account.Name}" />
+        </apex:pageblockSection>
+    </apex:form>    
+    </apex:pageBlock>
+</apex:page>

@@ -1,0 +1,10 @@
+<apex:page controller="ActionSupportTest" showHeader="true">
+    <apex:form id="form">
+        <h1>{!now()}</h1><br/>
+        <apex:pageMessages />
+        <apex:selectList value="{!discountScheduleID}" size="1" >
+            <apex:actionSupport event="onchange" action="{!calcPricing}" rerender="form"/>
+            <apex:selectOptions value="{!schedules}" />
+        </apex:selectList>    
+    </apex:form>
+</apex:page>

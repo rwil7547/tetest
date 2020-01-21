@@ -1,0 +1,22 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Page: testNumbers
+  <!-- End Default Content REMOVE THIS -->
+  
+  <apex:pageBlock >
+      <apex:pageBlockTable value="{!1}" var="entry">
+          <apex:column >{!entry}</apex:column>
+
+            <apex:repeat value="{!'null'}" var="rep"> 
+            
+                <apex:column >{!rep}</apex:column>
+
+            </apex:repeat>
+      
+      
+      </apex:pageBlockTable>
+  
+  </apex:pageBlock>
+  
+</apex:page>

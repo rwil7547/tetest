@@ -1,0 +1,39 @@
+<apex:page standardController="Contact" sidebar="true" showHeader="false">
+    <apex:form >
+        
+        <apex:pageBlock title="Edit Contact">
+            <apex:pageblockSection >
+                "hello {!$User.FirstName}"
+            </apex:pageblockSection>
+
+            <apex:pageBlockSection columns="1">
+                <apex:inputField value="{!Contact.FirstName}"/>
+                <apex:inputField value="{!Contact.LastName}"/>
+                <apex:inputField value="{!Contact.Email}"/>
+                <apex:inputField value="{!Contact.Birthdate}"/>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!save}" value="Save"/>
+            </apex:pageBlockButtons>
+
+        </apex:pageBlock>
+        
+        <apex:pageBlock title="User Status">
+            <apex:pageBlockSection columns="1">
+                
+                ({! IF($User.isActive, $User.Username, 'inactive') })
+
+                <p> Today's Date is {! TODAY() } </p>
+                <p> Next week it will be {! TODAY() + 7 } </p>
+                <p>The year today is {! YEAR(TODAY()) }</p>
+                <p>Tomorrow will be day number  {! DAY(TODAY() + 1) }</p>
+                <p>Let's find a minimum: {! MIN(1,2,3,4,5,6,5,4,3,2,1) } </p>
+                <p>The square root of 49 is {! SQRT(49) }</p>
+                <p>Is it true?  {! CONTAINS('salesforce.com', 'force.com') }</p>
+                
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        
+    </apex:form>
+</apex:page>

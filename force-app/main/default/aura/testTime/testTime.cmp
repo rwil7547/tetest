@@ -1,0 +1,58 @@
+<!--
+ - Created by ronanwilliams on 2019-07-17.
+ -->
+
+<aura:component description="testTime" controller="testTimeController" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+
+
+    <aura:attribute name="dates" type="Object[]"/>
+    <aura:attribute name="codes" type="Object[]"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+
+    <div class="timeGrid labelRow">
+
+
+        <div>CI CODE / PROJECT</div>
+
+
+        <aura:iteration var="date" items="{!v.dates}">
+
+            <div class="entryColumn headerColumn">{!date}</div>
+
+        </aura:iteration>
+
+        <div class="entryColumn headerColumn">TOTAL</div>
+
+    </div>
+
+
+
+    <div class="timeGrid">
+
+
+        <div>
+            <select onchange="{!c.setRow}">
+                <aura:iteration var="code" items="{!v.codes}" >
+                    <option value="{!code}">{!code}</option>
+
+                </aura:iteration>
+
+
+            </select>
+
+        </div>
+        <div class="entryColumn">0</div>
+        <div class="entryColumn">0</div>
+        <div class="entryColumn">0</div>
+        <div class="entryColumn">0</div>
+        <div class="entryColumn">0</div>
+        <div class="entryColumn">0</div>
+
+
+    </div>
+
+
+
+</aura:component>

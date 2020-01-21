@@ -1,0 +1,14 @@
+<apex:page controller="OldSchoolController">
+
+    
+    <h1>Hi {!myName}</h1>
+
+
+    <apex:repeat var="acc" value="{!accounts}">
+        <div id="{!acc.Id}" >{!acc.Name}</div>
+    
+    </apex:repeat>
+
+
+
+</apex:page>

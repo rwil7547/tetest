@@ -1,0 +1,17 @@
+<aura:component implements="force:appHostable,flexipage:availableforallpagetypes" controller="ListRacesApexController">
+    <aura:attribute name="races" type="Race__c[]" />  
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div class="slds">
+        <div class="slds-m-around--small slds-p-top--large">
+			<div class="slds-card">
+        		<aura:iteration items="{!v.races}" var="race">
+                    
+                    <header class="slds-card__header" >
+                    	<ui:outputText class="slds-text-heading--label" value="{!race.Name}" />
+                    </header>
+            		
+    			</aura:iteration>
+    		</div>
+        </div>
+    </div>        
+</aura:component>

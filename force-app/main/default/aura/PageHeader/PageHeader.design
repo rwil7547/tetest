@@ -1,0 +1,4 @@
+<design:component label="Page Header">
+    <design:attribute name="title" label="title" description="Title placed in header" />
+	
+</design:component>

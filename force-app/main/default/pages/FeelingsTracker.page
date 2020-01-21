@@ -1,0 +1,136 @@
+<apex:page showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+  <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="x-ua-compatible" content="ie=edge" />
+      <title>SLDS QuickAccount Page in Salesforce Mobile</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <!-- Import the Design System style sheet -->
+      <apex:slds />
+    </head>
+    <apex:includeScript value="/soap/ajax/42.0/connection.js"/>
+    <apex:remoteObjects >
+      <apex:remoteObjectModel name="Feeling__c" fields="Notes__c,Caffeine__c,Level__c,Alcohol__c"/>
+    </apex:remoteObjects>    
+    <body>
+    
+
+    
+    
+    
+      <!-- REQUIRED SLDS WRAPPER -->
+      <div class="slds-scope">
+        <!-- PRIMARY CONTENT WRAPPER -->
+        <div class="myapp">
+            <!-- HEADER INTRO -->
+            <div class="slds-page-header">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed">
+                            <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#feeling" />
+                            </svg>
+                        </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="New Feeling">New Feeling</h1>
+                            <p class="slds-text-body_small slds-line-height_reset">Enter your latest figures in the fields below</p>
+                    </div>
+                </div>
+            </div> 
+            <br />       
+            <!-- /HEADER INTRO -->        
+
+
+                <div class="slds-form slds-form_horizontal">
+                  <div class="slds-form-element">
+                    <label class="slds-form-element__label slds-text-heading_medium" for="level">Level</label>
+                    <div class="slds-form-element__control">
+                      <select name="cars" id="level" class="slds-input">
+    
+                      </select>
+                    </div>
+                  </div>
+                  <div class="slds-form-element">
+                    <label class="slds-form-element__label slds-text-heading_medium" for="notes">Notes</label>
+                    <div class="slds-form-element__control">
+                      <textarea id="notes" class="slds-textarea" placeholder="Add any details here"></textarea>
+                    </div>
+                  </div>
+                  <fieldset class="slds-form-element">
+                    <legend class="slds-form-element__legend slds-form-element__label slds-text-heading_medium">Other Details</legend>
+                    <br/>
+                    <div class="slds-form-element__control">
+                      <span class="slds-checkbox">
+                        <input type="checkbox" name="default" id="caffeine" value="checkbox-21" />
+                        <label class="slds-checkbox__label" for="caffeine">
+                          <span class="slds-checkbox_faux"></span>
+                          <span class="slds-form-element__label">Caffeine</span>
+                        </label>
+                      </span>
+                      <br />
+                      <span class="slds-checkbox">
+                        <input type="checkbox" name="default" id="alcohol" value="checkbox-22" />
+                        <label class="slds-checkbox__label" for="alcohol">
+                          <span class="slds-checkbox_faux"></span>
+                          <span class="slds-form-element__label">Alcohol</span>
+                        </label>
+                      </span>
+                    </div>
+                  </fieldset>
+                  <br />
+                </div>
+
+
+                 
+          <!-- BUTTON -->
+          <button class="slds-button_neutral slds-size_1-of-1 
+                         slds-m-top_x-small slds-p-bottom_x-small slds-p-top_x-small" 
+                         onclick="createRecord()">Add Entry</button>
+          <!-- / BUTTON -->
+        </div>
+        <!-- / PRIMARY CONTENT WRAPPER -->
+      </div>
+      <!-- / REQUIRED SLDS WRAPPER -->
+      <!-- JAVASCRIPT -->
+      <script>        
+        sforce.connection.sessionId='{!GETSESSIONID()}';
+      
+        var result = sforce.connection.describeSObject("Feeling__c");
+        var select = document.getElementById('level');
+           
+        for (var i = 0; i < result.fields.length; i++) {
+            if (result.fields[i].name === 'Level__c') {
+                var field = result.fields[i];
+                for (var j = 0; j < field.picklistValues.length; j++) {                      
+                    var opt = document.createElement('option');
+                    opt.value = field.picklistValues[j].value;
+                    opt.innerHTML = field.picklistValues[j].value;
+                    select.appendChild(opt);                               
+                }
+            }
+        }        
+        
+        function createRecord() {
+            var level = document.getElementById("level").value;
+            var notes = document.getElementById("notes").value;
+            var caffeine = document.getElementById("caffeine").checked;        
+            var alcohol = document.getElementById("alcohol").checked;       
+            
+            var feeling = new SObjectModel.Feeling__c();
+            feeling.create({Level__c: level, Notes__c : notes, Alcohol__c : alcohol, Caffeine__c : caffeine}, function(error, records) {
+                if (error) {
+                    alert(error.message);
+                } else {
+                    console.log(records);
+                    sforce.one.navigateToSObject(records[0]);
+                    //Sfdc.canvas.publisher.publish({name: "publisher.close", payload:{ refresh:"true"}});
+                }
+            });    
+        }
+    </script>
+
+      <!-- / JAVASCRIPT -->
+    </body>
+  </html>
+</apex:page>

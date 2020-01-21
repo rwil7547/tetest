@@ -1,0 +1,34 @@
+<apex:page >
+
+
+<apex:slds />
+
+<div class="slds-brand-band slds-brand-band_cover slds-brand-band_medium slds-template_bottom-magnet brand-band_magnetic forceBrandBand"></div>
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Page: testImages  
+<img id="one"/>
+<img id="two"/>
+         
+     <script>
+
+fetch('https://api.box.com/2.0/files/193985454287/thumbnail.png', {
+   headers: {
+       Authorization: 'Bearer EqFyi1Yq1tD9mxY8F38sxDfp73pFd7FP'
+
+   }, 
+          Access-Control-Allow-Methods: POST, PUT, GET, OPTIONS,
+Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+})
+.then((response) => response.blob())
+.then((blob) => {
+    const imageUrl = URL.createObjectURL(blob);
+    const img = document.querySelector('img');
+    img.addEventListener('load', () => URL.revokeObjectURL(imageUrl));
+    document.getElementById('one').src = imageUrl;
+    document.getElementById('two').src = imageUrl;
+});   
+     
+     </script>              
+              
+</apex:page>

@@ -1,0 +1,32 @@
+<apex:page docType="html-5.0" standardController="Opportunity">
+    <style>
+        .mypage .quote {
+            margin: 12px 0;
+            font-size: 64px;
+            text-align: center;
+        }
+    </style>
+    
+    <div class="mypage">
+        Tips:
+        <div id="message" class="quote">Nothing to show</div>
+
+    </div>
+    
+    <script>
+        var stage = "{!Opportunity.StageName}";
+        var message = document.getElementById("message");
+        if (stage == 'Prospecting'){
+            message.innerHTML = 'Placeholder 1';
+        } else if (stage == 'Prospecting'){
+            message.innerHTML = 'Placeholder 2';
+        } else if (stage == 'Needs Analysis'){
+            message.innerHTML = 'Placeholder 3';
+        } else if (stage == 'Proposal/Price Quote'){
+            message.innerHTML = 'Placeholder 4';
+        } else if (stage == 'Negotiation/Review'){ 
+            message.innerHTML = 'Placeholder 5';        
+        };                       
+    </script>
+    
+</apex:page>

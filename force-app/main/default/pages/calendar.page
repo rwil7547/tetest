@@ -1,0 +1,299 @@
+<apex:page lightningStylesheets="true" controller="OppRemoter">
+
+
+    <style>
+    #weekdays {
+    width:91vw;
+    height:30px;
+    background-color:#C0C0C0;
+    display: grid;
+    grid-template-columns: 13vw 13vw 13vw 13vw 13vw 13vw 13vw ;
+    margin-left: auto;
+    margin-right: auto;    
+    margin-top: 20px;
+    margin-bottom: auto;  
+    position: sticky;
+    top: 5px; 
+    text-align: center;
+    }
+    #backdrop {
+    width:91vw;
+    height:91vh;
+    background-color:#C0C0C0;
+    display: grid;
+    grid-template-columns: 13vw 13vw 13vw 13vw 13vw 13vw 13vw ;
+    grid-auto-rows: max-content;
+    margin-left: auto;
+    margin-right: auto;    
+    margin-bottom: auto;  
+    overflow: scroll;  
+    }
+    .day {   
+    border: 0.2px solid #c6c4c4;
+    padding: 4px;
+    height: auto;
+    min-height: 100px;
+    layout: grid;
+    grid-auto-flow: row;
+    overflow: visible;
+    }
+    .odd {
+    background-color: #f0f0f0;
+    }    
+    .even {
+    background-color: #ced6e2;
+    }
+    ::-webkit-scrollbar { 
+    display: none; 
+    }
+    .event {
+    //width: 500px;
+    border-radius: 5px;
+    background-color: #bf645d;
+    padding: 2px;
+    margin-bottom: 2px;
+    cursor: pointer; 
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;     
+    white-space: nowrap; 
+    z-index: 100;
+    //position: relative;
+    }
+    .filler {
+    //width: 500px;
+    border-radius: 3px;
+    background-color: black;
+    padding: 2px;
+    margin-bottom: 2px;
+    cursor: pointer; 
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;     
+    white-space: nowrap; 
+    z-index: 100;
+    //position: relative;
+    }
+
+    .free {
+    display: none;
+    }
+    .taken {
+    display: none;
+    }
+    
+    </style>
+ 
+        <div id="weekdays">
+            <div > MONDAY</div>
+            <div> TUESDAY</div>
+            <div> WEDNESDAY</div>
+            <div> THURSDAY</div>
+            <div> FRIDAY</div>
+            <div> SATURDAY</div>            
+            <div> SUNDAY</div>                
+        </div> 
+    
+        <div  id="backdrop">
+        </div>   
+
+    <script>
+
+         var calendar = document.getElementById('backdrop');
+         
+         var start = new Date("01/01/2017");
+         var end = new Date("12/31/2018");
+         
+         var takenMap = new Map();
+         var sizeMap = new Map();
+        
+         var block = 1;
+
+        window.addEventListener('load', function(e) {
+       
+             
+             while (block < start.getDay()){
+                 calendar.innerHTML  += '<div ></div>';
+                 block ++;        
+             }
+             
+             var loop   = new Date(start);
+             var zIndex = 1000; 
+             
+             var colorClass = 'odd';
+             
+             while (loop <= end){
+                 
+                 var day = loop.getDate();
+                 var dayId = makeId(loop);
+                 
+                 if (day == 1){
+                 
+                     if (loop.getMonth() % 2 == 0){
+                         colorClass = 'even';
+                     } else {
+                         colorClass = 'odd';
+                     }
+                 
+                     var monthText;
+                     var monthNumber = loop.getMonth();
+                     switch (monthNumber) {
+    
+                      case 0: monthText = "January";
+                      break;    
+                      case 1: monthText = "February";
+                      break;
+                      case 2: monthText = "March";
+                      break;
+                      case 3: monthText = "April";
+                      break;
+                      case 4: monthText = "May";
+                      break;
+                      case 5: monthText = "June";
+                      break;
+                      case 6: monthText = "July";
+                      break;
+                      case 7: monthText = "August";
+                      break;
+                      case 8: monthText = "September";
+                      break;
+                      case 9: monthText = "October";
+                      break;
+                      case 10: monthText = "November";
+                      break;
+                      case 11: monthText = "December";
+                    }             
+                 
+                     day += ' ' + monthText + ' ' + loop.getYear();
+                 }
+                 
+                 var dayEntry = '<div class=\"day' + ' ' + colorClass + '\" ' +     
+                                 ' id=\"' + dayId + '\"' + ' style=\" z-index:' + zIndex + '\">' + day + '</div>';                                  
+                 
+                 calendar.innerHTML  += dayEntry;
+                 
+                 //for (var x = 0; x < 10; x++){
+                 //    calendar.appendChild
+                 //}
+                 
+                 takenMap.set(dayId, ['taken','free','free','free','free','free','free','free','free','free','free']);
+                 sizeMap.set(dayId, 0);
+                 
+                 var newDate = loop.setDate(loop.getDate() + 1);
+                 loop = new Date(newDate);
+                 zIndex --;
+                 
+             }
+             
+             var eventDate = new Date();
+             
+             var dayId = makeId(eventDate);
+             var calendarDate = document.getElementById(dayId);
+             console.log('method returns : ' + calendarDate);
+             calendarDate.innerHTML += '<div class=\"event\">An event</div>';
+             calendarDate.innerHTML += '<div class=\"event\">Another event</div>';         
+             calendarDate.innerHTML += '<div class=\"event\">Another event</div>';            
+             calendarDate.innerHTML += '<div class=\"event\">Another event</div>';   
+             calendarDate.innerHTML += '<div class=\"event\">Another event</div>';       
+             calendarDate.innerHTML += '<div class=\"event\">Another event</div>';       
+    
+            Visualforce.remoting.timeout = 120000; // Set timeout at page level
+            //getRemoteAccount();    
+            console.log('method complete');
+            getRemoteAccount(); 
+        }, true);
+        
+        
+        function getRemoteAccount() {
+
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.OppRemoter.getOpps}', 
+                handleResult
+            );
+        }
+    
+        function handleResult(result, event) { 
+            
+            for (var x = 0; x < result.length; x++){
+                var startDate    = new Date(result[x].CloseDate);
+                var startDayId   = makeId(startDate);
+                
+                if (takenMap.has(startDayId)){
+
+                    var endDate      = new Date(result[x].Event_End__c);
+                    var endDayId     = makeId(startDate);
+                    
+                    var length = daysBetween(startDate, endDate);
+ 
+                    //var ids = getDateIds(startDate, endDate);
+                    var additions = []; 
+                    
+                    var date = new Date(startDate);
+
+                    
+                    
+                    var placementIndex = 0;
+                    
+                    var name    = result[x].Name; 
+                    
+                    var overlapping = [];
+                        
+                    var width = '';
+                    
+                    if (length > 1){
+                        var vw = 12.75 * length;
+                        width = vw + 'vw';                                           
+                    }
+                    
+                    
+                    //console.log(takenMap.get(startDayId).indexOf('free'));
+                    //console.log(sizeMap.get(startDayId));
+                    
+                    var firstAvailable = takenMap.get(startDayId).indexOf('free');
+                    
+                    var day = document.getElementById(startDayId);                       
+                    
+                    if (day){
+                        day.innerHTML += '<div class=\"event\"' + 'style=\"width:' + width + '\">' + name + ' (over ' + length + 'days)</div>';    
+                        takenMap.get(startDayId)[firstAvailable] = 'taken';
+                        sizeMap.set(startDayId, sizeMap.get(startDayId) + 1);
+                    }
+                 }
+            }
+
+            var dayDivs = document.getElementsByClassName('day');
+            
+            for (var x = 0; x < dayDivs.length; x++){
+                console.log(takenMap.get(dayDivs[x].id));
+                console.log(sizeMap.get(dayDivs[x].id));            
+            }
+         }
+
+         function makeId(date1){
+             var date = new Date(date1);
+             var Id = 'day' + date.getDate() + 'month' + date.getMonth() + 'year' + date.getYear();
+             return Id;
+         }
+
+        function daysBetween( date1, date2 ) {
+          var one_day=1000*60*60*24;
+          var date1_ms = date1.getTime();
+          var date2_ms = date2.getTime();
+          var difference_ms = date2_ms - date1_ms;
+          return Math.round(difference_ms/one_day) + 1; 
+        }
+        
+        function getDateIds(startDate, stopDate) {
+            var idArray = new Array();
+            var currentDate = startDate;
+            while (currentDate <= stopDate) {
+                var Id = makeId(currentDate);
+                idArray.push(Id);
+                currentDate = new Date(currentDate + 1);
+            }
+            return idArray;
+        }
+        
+    </script>
+
+</apex:page>

@@ -1,0 +1,19 @@
+<apex:page controller="WrapperAccountController" standardStylesheets="false">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Process Selected" action="{!processSelected}" rerender="table"/>
+            </apex:pageBlockButtons>
+            <!-- in the table below we show the wAccount records -->
+            <apex:pageBlockTable value="{!accounts}" var="acc" id="table">
+                <apex:column >
+                    <!-- our checkbox goes here -->
+                    <apex:inputCheckbox value="{!acc.selected}"/>
+                </apex:column>
+                <apex:column value="{!acc.acc.Name}"/>
+                <apex:column value="{!acc.acc.Industry}"/>
+                <apex:column value="{!acc.acc.Website}"/>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

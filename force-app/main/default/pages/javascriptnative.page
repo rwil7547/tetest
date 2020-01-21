@@ -1,0 +1,16 @@
+<apex:page >
+<apex:includeScript value="{!$Resource.jQuery}"/>
+<html>
+<head>
+  <script>
+    jQuery.noConflict();
+    
+    jQuery(document).ready(function() {    
+        jQuery("a").click(function() {
+          alert("Hello world, part 2!");
+        });
+    });
+  </script>
+</head>
+</html>
+</apex:page>

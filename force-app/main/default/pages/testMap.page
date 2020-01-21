@@ -1,0 +1,16 @@
+<apex:page controller="testMap">
+
+    <apex:repeat value="{!Set}" var="s">
+        <apex:pageBlock title="{!s}">
+        
+            <apex:pageBlockTable value="{!Map[s]}" var="l">
+                <apex:column value="{!l}"/>
+            
+            </apex:pageBlockTable>
+        
+        
+        </apex:pageBlock>
+    
+    </apex:repeat>
+    
+</apex:page>

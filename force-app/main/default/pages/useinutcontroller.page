@@ -1,0 +1,18 @@
+<apex:page controller="input" >
+
+<apex:form >
+  <apex:selectList value="{!contactID}" size="5">
+     <apex:selectOptions value="{!contacts}" />
+     <apex:actionSupport event="onchange" action="{!updateContact}" rerender="form" immediate="true"/>
+  </apex:selectList>
+  <apex:pageBlock >
+     <apex:panelGrid columns="2" id="form">
+        Full Name: <apex:outputField value="{!c.Name}"/>
+        Email: <apex:inputField value="{!c.Email}" required="true"/>
+        Title: <apex:inputField value="{!c.Title}" required="true"/>
+        Phone: <apex:inputField value="{!c.Phone}" required="true"/>
+     </apex:panelGrid>  
+  </apex:pageBlock>
+</apex:form>
+
+</apex:page>

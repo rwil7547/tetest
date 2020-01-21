@@ -1,0 +1,41 @@
+<apex:page standardController="Contact" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+  <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="x-ua-compatible" content="ie=edge" />
+      <title>Show Assistant Info and Phone</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <!-- Import the Design System style sheet -->
+      <apex:slds />
+    </head>
+    <apex:remoteObjects >
+      <apex:remoteObjectModel name="Contact" fields="Id,AssistantName,AssistantPhone"/>
+    </apex:remoteObjects>
+    <body>
+      <!-- REQUIRED SLDS WRAPPER -->
+      <div class="slds-scope">
+        <!-- PRIMARY CONTENT WRAPPER -->
+        <div class="myapp">
+          <!-- CREATE BUTTONS -->
+            <div class="slds-grid slds-wrap">
+              <div class="slds-col slds-size--1-of-1">
+                <div class="slds-box slds-box_x-small slds-text-align_center slds-m-around--x-small slds-theme_default" 
+                            >{!Contact.AssistantName}</div> 
+              </div>
+              <div class="slds-col slds-size--1-of-1">
+                <div class="slds-box slds-box_x-small slds-text-align_center slds-m-around--x-small slds-theme_default" 
+                            href="tel:{!Contact.AssistantPhone}">{!Contact.AssistantPhone}</div>
+              </div>
+            </div>
+          <!-- / CREATE BUTTONS  -->
+        </div>
+        <!-- / PRIMARY CONTENT WRAPPER -->
+      </div>
+      <!-- / REQUIRED SLDS WRAPPER -->
+      <!-- IMPORT PUBLISHER SDK -->
+      <script src='/canvas/sdk/js/publisher.js'></script>  
+      <!-- / IMPORT PUBLISHER SDK -->
+
+    </body>
+  </html>
+</apex:page>

@@ -1,0 +1,198 @@
+<apex:page controller="NewCaseController">
+
+    <script type="text/javascript">
+    
+    function checkValidity() {
+    
+        //var email         = document.getElementById('email').innerHTML;
+        //var issueType     = document.getElementById('issueType').innerHTML;        
+        //var description   = document.getElementById('description').innerHTML;        
+
+        var email         = 'ronanjwilliams@gmail.com';
+        var issueType     = 'Its an issue';        
+        var description   = 'Its a description';   
+        
+        console.log('The function was called');   
+
+        //if (email != null && issueType != null && description != null) {
+            // submitCase(email, issueType, description);
+        // }    
+    }    
+    
+    
+    
+    function submitCase(email, issueType, description) {
+
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.NewCaseController.createCase}',
+            email,
+            issueType,
+            description,
+            function(result, event){
+                console.log('The function was called');
+                if (event.status) {
+                    // Get DOM IDs for HTML and Visualforce elements like this
+                    document.getElementById('newCaseDiv').style.display = 'none';
+                    document.getElementById('responseMessage').style.display = 'block';                    
+                    document.getElementById('rep').innerHTML = result;   
+                } else if (event.type === 'exception') {
+                    document.getElementById('rep').innerHTML = result;
+                } else {
+                    document.getElementById('rep').innerHTML = result;
+                }
+            }, 
+            {escape: true}
+        );
+    }
+    </script>
+
+
+    
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    
+    input[type=button] {
+        width: 10%;
+        padding: 120px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+    }
+
+    input[type=text], select, textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: vertical;
+    }    
+    
+    label {
+        padding: 12px 12px 12px 0;
+        display: inline-block;
+    }
+    
+    input[type=submit] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+    }
+
+    input[type=button] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+    }    
+    
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
+
+    input[type=button]:hover {
+        background-color: #45a049;
+    }    
+    
+    .container {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+    
+    .col-25 {
+        float: left;
+        width: 25%;
+        margin-top: 6px;
+    }
+    
+    .col-75 {
+        float: left;
+        width: 75%;
+        margin-top: 6px;
+    }
+    
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    
+    /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+    @media screen and (max-width: 600px) {
+        .col-25, .col-75, input[type=submit] {
+            width: 100%;
+            margin-top: 0;
+        }
+    }
+</style>
+
+
+
+<h1>Live Group IT Request Portal</h1>
+<p id="rep">Submit your new case below.</p>
+
+<div class="container">
+  <form >
+  
+      <div id="newCaseDiv" style="display: block">
+        <div class="row">
+          <div class="col-25">
+            <label for="email">Email</label>
+          </div>
+          <div class="col-75">
+            <input type="text" id="email" name="email" placeholder="Your email.." required="true"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="issueType">Issue Type</label>
+          </div>
+          <div class="col-75">
+            <input type="text" id="issueType" name="issueType" placeholder="{!newCase.Issue_Type__c}" required="true"/>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="country">Country</label>
+          </div>
+          <div class="col-75">
+            <select id="country" name="country">
+              <option value="australia">Australia</option>
+              <option value="canada">Canada</option>
+              <option value="usa">USA</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="description">Description</label>
+          </div>
+          <div class="col-75">
+            <textarea id="description" name="description" placeholder="Write something.." style="height:200px"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <input type="button" value="Submit" onclick="checkValidity()"/>
+        </div>
+    </div>
+    
+    <div id="responseMessage" style="display: none">Your ticket has been submitted. Thank you.</div>    
+        
+  </form>
+</div>
+
+
+
+   
+
+</apex:page>

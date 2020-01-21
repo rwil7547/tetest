@@ -1,0 +1,40 @@
+<apex:page controller="BudgetEntry" sidebar="false">
+    <apex:form >
+    <apex:pageBlock title="Budget">
+        <apex:pageBlockButtons >
+            <apex:commandButton action="{!doUpdate}" id="editButton" value="Update"/>
+        </apex:pageBlockButtons>
+      <apex:selectList size="1">
+          <apex:selectOptions value="{!Years}"></apex:selectOptions>
+      </apex:selectList>
+        <apex:pageblockTable value="{!bes}" var="be">
+            <apex:column value="{!be.Category__c}" />
+            <apex:column headervalue="April" >
+                <apex:inputField value="{!be.April__c}" style="width: 60px;"/>
+            </apex:column>
+            <apex:column headervalue="May" >
+                <apex:inputField value="{!be.May__c}" style="width: 60px;"/>
+            </apex:column>
+            <apex:column headervalue="June" >
+                <apex:inputField value="{!be.June__c}" style="width: 60px;"/>
+            </apex:column>
+            <apex:column headervalue="July" >
+                <apex:inputField value="{!be.July__c}" style="width: 60px;"/>
+            </apex:column>
+            <apex:column headervalue="August" >
+                <apex:inputField value="{!be.August__c}" style="width: 60px;"/>
+            </apex:column>
+            <apex:column value="{!be.September__c}" />
+            <apex:column value="{!be.October__c}" />
+            <apex:column value="{!be.November__c}" />
+            <apex:column value="{!be.December__c}" />
+            <apex:column value="{!be.January__c}" />
+            <apex:column value="{!be.February__c}" />
+            <apex:column value="{!be.March__c}" />
+            <apex:column headervalue="Total" >
+                <apex:outputField value="{!be.Total__c}" style="fontweight:bold;"/>
+            </apex:column>
+        </apex:pageblockTable>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

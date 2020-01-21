@@ -1,0 +1,16 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Page: indexOfUndefined
+  <!-- End Default Content REMOVE THIS -->
+  
+  <script>
+  var myMap = new Map();
+  
+  myMap.set(1,[1,1,1,1]);
+  myMap.get(1)[0] = 2;
+  
+  console.log(myMap.get(1).indexOf(2));
+  </script>
+  
+</apex:page>

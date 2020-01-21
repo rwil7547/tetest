@@ -1,0 +1,48 @@
+<apex:page standardController="Contact">
+  <!-- Page Header -->
+  <apex:sectionHeader title="Contact Edit for {!$User.FirstName}" subtitle="New SFDC99 Member added {!$System.OriginDateTime}" />
+  <apex:image value="http://bit.ly/17iLknp" styleClass="logo" />
+  <!-- Begin Form -->
+  <apex:form >
+    <apex:pageBlock title="Rules of SFDC99" mode="edit">
+      <!-- SFDC99 Rules -->
+      <apex:outputPanel styleClass="rules">
+        The 1st rule of SFDC99 is: You do not talk about SFDC99.<br />
+        The 2nd rule of SFDC99 is: You do not talk about SFDC99.<br />
+        The 3rd rule of SFDC99 is: You do not talk about SFDC99.<br /><br />
+        <iframe width="1000" height="700" frameborder="0" src="https://app.smartsheet.com/b/form/96548a016c9f467d8dde5551c3b5baff"></iframe>
+      </apex:outputPanel>
+      <!-- Fields -->
+      <apex:pageBlockSection columns="3" showHeader="true" title="Membership Status">
+        <apex:inputField value="{!contact.FirstName}" required="true" />
+        <apex:inputField value="{!contact.LastName}"  required="true" />
+        <apex:inputField value="{!contact.Email}" />
+        <apex:pageBlockSectionItem >
+          <apex:outputLabel >Referrer</apex:outputLabel>
+          <apex:inputField value="{!contact.FirstName}" />
+        </apex:pageBlockSectionItem>
+      </apex:pageBlockSection>
+      <!-- Button Section -->
+      <apex:pageBlockButtons location="bottom">
+        <apex:commandButton value="Add SFDC99 Member" action="{!save}" />
+        <apex:commandLink value="Back to SFDC99" target="http://www.sfdc99.com" />
+      </apex:pageBlockButtons>
+    </apex:pageBlock>
+  </apex:form>
+  <!-- CSS -->
+  <style>
+    .logo {
+      float: right;
+      width: 60px;
+      margin: -65px 20px 0 0;
+    }
+    .rules {
+      color: blue;
+      font-size: 16px;
+      font-family: Arial;      
+      margin: 10px 0 10px 30px;
+      float: left;
+      width: 100%;
+    }
+  </style>
+</apex:page>

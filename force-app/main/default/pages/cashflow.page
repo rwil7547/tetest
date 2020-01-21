@@ -1,0 +1,8 @@
+<apex:page controller="CashFlowController">
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!balances}" var="b">
+            <apex:column headervalue="Amount" value="{!b.balance}"/>                  
+            <apex:column headervalue="Date" value="{!b.balanceDate}"/> 
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

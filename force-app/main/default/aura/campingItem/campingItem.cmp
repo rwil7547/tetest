@@ -1,0 +1,16 @@
+<aura:component >
+    <aura:attribute name="campingItem" type="Camping_Item__c"/>
+	<lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:card title="{!v.campingItem.Name}" iconName="standard:scan_card">
+            <p class="slds-text-heading--medium slds-p-horizontal--small">
+                Name: {!v.campingItem.Name}
+            </p>
+            <p class="slds-p-horizontal--small">
+                Quanitity: {!v.campingItem.Quantity__c}
+            </p>
+            <p class="slds-p-horizontal--small">
+                Price: {!v.campingItem.Price__c}
+            </p>
+        </lightning:card>
+	</lightning:layout>
+</aura:component>

@@ -1,0 +1,245 @@
+<apex:page controller="CashFlowController" sidebar="false" lightningStylesheets="true">
+   <style>
+      #pageBlock{
+      text-align:center;
+      }
+      div {
+      //border: 1px solid red;
+      border-radius: 3px;
+      //padding: 5px;
+      }
+      .details {
+      padding: 8px;
+      }
+      .grid-container {
+      display: grid;
+      grid-template-columns: 58vw 37vw;
+      padding: 5px;
+      }
+      .grid-container2 {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      padding: 5px;
+      }
+      .grid-container3 {
+      display: grid;
+      grid-template-columns: auto auto;
+      padding: 5px;
+      }        
+      ::-webkit-scrollbar { 
+      display: none; 
+      }
+      .grid-item {
+      padding: 3px;
+      }
+      .grid-item2 {
+      padding: 3px;
+      //height: 17vh;
+      }
+      .grid-item3 {
+      padding: 3px;
+      }                
+      .chartPanel{
+      // position: sticky; top: 5px; important!
+      //height: 50vw;         
+      }
+      #info {
+      overflow-y: scroll;
+      max-height:80vh;
+      }
+      .inner-item {
+      min-height: 9vh;
+      }
+      body{ background-color:#B0C4DF;  }
+      
+      /* Style the header: fixed position (always stay at the top) */
+      .header {
+      top: 0;
+      z-index: 1;
+      width: 99%;
+      background-color: #f1f1f1;
+      }
+      /* The progress container (grey background) */
+      .progress-container {
+      width: 91%;
+      height: 8px;
+      background: #ccc;
+      margin-left: 9%;
+      }
+      /* The progress bar (scroll indicator) */
+      .progress-bar {
+      height: 8px;
+      background: #4caf50;
+      width: 0%;
+      }
+   </style>
+   <br></br>
+   <apex:sectionHeader title="Cashflow Analysis" subtitle="" id="banner"/>
+   <apex:form >
+      <div class="grid-container" >
+         <div class="grid-item" onresize="callAction()">
+            <div class="chartPanel">
+
+               <apex:pageBlock >
+               <!--<div class="header">
+                  <div class="progress-container">
+                     <div class="progress-bar" id="myBar"></div>
+                  </div>
+               </div>-->               
+               
+                  <apex:chart height="400px" width="100%" data="{!Balances}" resizable="true" id="thechart">
+                     <apex:axis type="Numeric" position="left" fields="displaybalance" 
+                        title="Bank balance (£ thousands)" grid="true"/>
+                     <apex:axis type="Category" position="bottom" fields="thirds" 
+                        title="" >
+                        <apex:chartLabel rotate="315" font="14px Helvetica, sans-serif" field="balancedate" />
+                     </apex:axis>
+                     <apex:lineSeries axis="left" fill="false" xField="balancedate" yField="displaybalance"
+                        markerType="circle" markerSize="0" markerFill="#FF0000" smooth="0" strokeWidth=".4"/>
+                     <!--<apex:lineSeries axis="left" fill="false" xField="balancedate" yField="displaybalance2"
+                        markerType="circle" markerSize="0" markerFill="#FF0000" smooth="0" strokeWidth=".4"/>-->
+                  </apex:chart>
+               </apex:pageBlock>
+            </div>
+            <div></div>
+            <div class="grid-container2">
+               <div class="grid-item2">
+                  <apex:pageBlock title="Current Balance in Quickbooks">
+                     <div class="inner-item">
+                        <div style="text-align: center;font-size:36px;">
+                           £285,890.01
+                        </div>
+                     </div>
+                  </apex:pageBlock>
+               </div>
+               <div class="grid-item2">
+                  <apex:pageBlock title="Future Revenue Outstanding">
+                     <div class="inner-item">
+                     </div>
+                  </apex:pageBlock>
+               </div>
+               <div class="grid-item2">
+                  <apex:pageBlock title="Future Revenue Obtained">
+                     <div class="inner-item">
+                     </div>
+                  </apex:pageBlock>
+               </div>
+               <div class="grid-item2">
+                  <apex:pageBlock title="Current Balance in Barclays Online">
+                     <div class="inner-item">
+                     </div>
+                  </apex:pageBlock>
+               </div>
+               <div class="grid-item2">
+                  <apex:pageBlock title="Future COS Outstanding">
+                     <div class="inner-item">
+                     </div>
+                  </apex:pageBlock>
+               </div>
+               <div class="grid-item2">
+                  <apex:pageBlock title="Future COS Obtained">
+                     <div class="inner-item">
+                     </div>
+                  </apex:pageBlock>
+               </div>
+            </div>
+         </div>
+         <div>
+            <apex:pageBlock title="Transaction Overview">
+               <div class="grid-container3">
+                  <div calss="grid-item3">
+                     <div style="text-align: center;font-size:18px;">MONEY IN:</div>
+                  </div>
+                  <div calss="grid-item3">
+                     <div style="text-align: center;font-size:18px;">MONEY OUT:</div>
+                  </div>
+               </div>
+               <div class="grid-item" id="info" onscroll="myFunction()">
+                  <apex:repeat value="{!Balances}" var="x">
+                     <apex:pageBlock title="{!x.stringDate}">
+                        <div class="grid-container3">
+                           <div calss="grid-item3">
+                              <apex:pageBlock >
+                                 <img src="https://www.intuit.com/content/dam/intuit/intuitcom/company/images/logo-intuit-quickbooks-preferred.jpg" height="25px"/>
+                                 <apex:pageBlockSection columns="1">
+                                    <apex:pageBlockTable value="{!Strings}" var="bal">
+                                       <apex:column headerValue="Description" value="{!bal}"/>
+                                       <apex:column headerValue="Value" value="{!bal}"/>
+                                    </apex:pageBlockTable>
+                                 </apex:pageBlockSection>
+                              </apex:pageBlock>
+                           </div>
+                           <div calss="grid-item3">
+                              <apex:pageBlock >
+                                 <img src="https://www.intuit.com/content/dam/intuit/intuitcom/company/images/logo-intuit-quickbooks-preferred.jpg" height="25px"/>
+                                 <apex:pageBlockSection columns="1">
+                                    <apex:pageBlockTable value="{!Strings}" var="bal">
+                                       <apex:column headerValue="Description" value="{!bal}"/>
+                                       <apex:column headerValue="Value" value="{!bal}"/>
+                                    </apex:pageBlockTable>
+                                 </apex:pageBlockSection>
+                              </apex:pageBlock>
+                           </div>
+                           <div calss="grid-item3">
+                              <apex:pageBlock >
+                                 <img src="http://www.stickpng.com/assets/images/58482f67cef1014c0b5e4a81.png" height="25px"/>
+                                 <apex:pageBlockSection columns="1">
+                                    <apex:pageBlockTable value="{!Strings}" var="bal">
+                                       <apex:column headerValue="Description" value="{!bal}"/>
+                                       <apex:column headerValue="Value" value="{!bal}"/>
+                                    </apex:pageBlockTable>
+                                 </apex:pageBlockSection>
+                              </apex:pageBlock>
+                           </div>
+                           <div calss="grid-item3">
+                              <apex:pageBlock >
+                                 <img src="http://www.stickpng.com/assets/images/58482f67cef1014c0b5e4a81.png" height="25px"/>
+                                 <apex:pageBlockSection columns="1">
+                                    <apex:pageBlockTable value="{!Strings}" var="bal">
+                                       <apex:column headerValue="Description" value="{!bal}"/>
+                                       <apex:column headerValue="Value" value="{!bal}"/>
+                                    </apex:pageBlockTable>
+                                 </apex:pageBlockSection>
+                              </apex:pageBlock>
+                           </div>
+                        </div>
+                     </apex:pageBlock>
+                  </apex:repeat>
+               </div>
+            </apex:pageBlock>
+         </div>
+      </div>
+      <apex:actionFunction action="{!null}" name="methodOneInJavascript" rerender="thechart">
+         <apex:param name="firstParam" assignTo="{!state}" value="" />
+      </apex:actionFunction>
+   </apex:form>
+   <script>
+    window.addEventListener("resize", callAction);
+    
+    var x1 = 0;
+    var x = 0;
+    function myFunction() {
+        var txt = x += 1;
+        console.log(txt);
+    }
+      
+      function callAction() {
+      console.log('resized');
+      methodOneInJavascript();
+              var txt = x1 += 1;
+        console.log(txt);
+      }
+      
+      /*function myFunction() {
+        // var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        // var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        
+        var winScroll = document.getElementById("info").scrollTop || document.getElementById("info").scrollTop;
+        var height = document.getElementById("info").scrollHeight - document.getElementById("info").clientHeight;        
+        
+        var scrolled = (winScroll / height) * 100;
+        document.getElementById("myBar").style.width = scrolled + "%";
+      }   */     
+      
+   </script>
+</apex:page>

@@ -1,0 +1,21 @@
+<apex:page controller="regioncontroller" sidebar="false">
+
+    <apex:form >
+        <apex:pagemessages id="this"/>
+        <apex:pageBlock >
+            <apex:actionRegion >
+                <apex:inputtext value="{!name}">
+                    <apex:actionSupport event="onkeyup" action="{!makeName}" rerender="this,output"/>
+                </apex:inputtext>
+            </apex:actionRegion>
+            <apex:inputtext required="true" id="thisId" value="{!job}"/>
+            
+            <apex:pageBlockSection id="output">
+            <apex:outputText > {!name} ' '  {!job}
+            </apex:outputText>
+            </apex:pageBlockSection>
+        
+        </apex:pageBlock>
+    
+    </apex:form>
+</apex:page>

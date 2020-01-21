@@ -1,0 +1,119 @@
+<apex:page controller="CashFlowController" sidebar="false" lightningStylesheets="true">
+    <style>
+        #pageBlock{
+            text-align:center;
+        }
+        div {
+            border: 1px solid red;
+            border-radius: 3px;
+        }
+        .grid-container {
+          display: grid;
+          grid-template-columns: 58vw 37vw;
+          padding: 5px;
+        }
+        .grid-container2 {
+          display: grid;
+          grid-template-columns: auto auto auto;
+          padding: 5px;
+        }
+        .grid-item {
+           padding: 3px;
+        }
+        .chartPanel{
+             position: sticky; top: 5px; important!        
+        }
+        #info {
+            overflow-y: scroll;
+            max-height:80vh;
+        }
+    </style>    
+    <br></br>
+    <div style="color:black;font-size:46px;" align="center"> Cashflow forecast next 60 days </div>
+    <br></br>
+    <br></br>
+    
+    
+    
+    <div class="grid-container chartPanel">
+    
+            <div class="grid-item chartPanel" id="chartPanel">
+                <div>
+                <apex:chart height="400" width="88%" data="{!Balances}" >
+                      <apex:axis type="Numeric" position="left" fields="displaybalance" 
+                        title="Bank balance (£ thousands)" grid="true"/>
+                      <apex:axis type="Category" position="bottom" fields="thirds" 
+                        title="" >
+                        
+                        <apex:chartLabel rotate="315" font="14px Helvetica, sans-serif" field="balancedate" />
+                    </apex:axis>
+                    <apex:lineSeries axis="left" fill="false" xField="balancedate" yField="displaybalance"
+                      markerType="circle" markerSize="0" markerFill="#FF0000" smooth="0" strokeWidth=".4"/>
+               </apex:chart>
+               </div>
+            
+                <div class="grid-container2">
+                    <div >Stuff</div>
+                    <div >Stuff</div>
+                    <div >Stuff</div>
+                
+                </div>
+            
+            
+            </div>
+            
+
+            
+            <div class="grid-item" id="info">
+            <apex:repeat value="{!Balances}" var="x">
+                    {!x.stringDate}<br/>
+                </apex:repeat>
+            </div>
+
+    </div>
+
+
+
+    
+    <apex:repeat value="{!Balances}" var="x">
+        {!x.stringDate}<br/>
+    </apex:repeat>
+    <br></br>      
+    <apex:pageBlock title="Breakdown by day" id="pageBlock">   
+        <table style="width:100%" >
+            <tr>
+                <th></th>
+                    <apex:repeat value="{!Balances}" var="bal">
+                        <td style="font-weight:bold;">{!bal.displayday}</td>
+                    </apex:repeat>
+            </tr>
+            <tr>
+                <th></th>
+                    <apex:repeat value="{!Balances}" var="bal">
+                        <td style="font-weight:bold;">{!bal.displaydate}</td>
+                    </apex:repeat>
+            </tr>  
+            <tr>
+                <th>Credits:</th>
+                    <apex:repeat value="{!Balances}" var="bal">
+                        <td>£{!bal.credits}</td>
+                    </apex:repeat>
+            </tr>
+            <tr>
+                <th>Debits:</th>
+                    <apex:repeat value="{!Balances}" var="bal">
+                        <td>£{!bal.debits}</td>     
+                    </apex:repeat>
+            </tr>
+            <tr>
+                <th>Balance:</th>
+                    <apex:repeat value="{!Balances}" var="bal">
+                        <td>£{!bal.displaybalance}</td>                
+                    </apex:repeat>
+            </tr>    
+        </table>
+   </apex:pageBlock>  
+   <script type="text/javascript">
+
+</script>
+</apex:page>

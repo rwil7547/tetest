@@ -1,0 +1,28 @@
+/**
+ * Created by ronanwilliams on 2019-07-17.
+ */
+
+.THIS {
+}
+
+.THIS.timeGrid {
+    display: grid;
+    grid-template-columns: 40% 10% 10% 10% 10% 10% 10%;
+    padding: 3px;
+
+    position: relative;
+}
+
+.THIS.labelRow {
+    background-color: lightgrey;
+}
+
+.THIS .headerColumn {
+    border: 1px solid grey;
+}
+
+
+.THIS .entryColumn {
+    text-align: center;
+    width: 100%;
+}

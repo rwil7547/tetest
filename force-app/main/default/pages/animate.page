@@ -1,0 +1,130 @@
+<apex:page >
+     <meta name="viewport" content="width=device-width, initial-scale=1"/>   
+        <style>
+        .demo {
+            animation: shake 0.5s; 
+        }
+
+        .theClass {
+        text-decoration: underline;
+        //text-decoration-color: #E18728;
+        border-bottom: 2px solid rgba(0,102,204,.2);
+        }
+
+   
+ 
+        
+        .all:after {
+          background: linear-gradient(to right, #008b00 25%,#0099ff 25%, #0099ff 50%, #ffff00 50%, #ffff00 75%, #d3d3d3 75%);
+          position: absolute;
+          content: '';
+          height: 2px;
+          right: 30%;
+          left: 3%;
+          bottom: 100px;
+        }
+        .all2:after {
+          background: linear-gradient(to right, #008b00 33%,#0099ff 33%, #0099ff 66%, #ffff00 66%);
+          position: absolute;
+          content: '';
+          height: 2px;
+          right: 30%;
+          left: 3%;
+          bottom: 100px;
+        }
+        .quickbooks:after {
+          background: linear-gradient(to right, #008b00 100%, #008b00 100%);
+          position: absolute;
+          content: '';
+          height: 2px;
+          right: 30%;
+          left: 3%;
+          bottom: 100px;
+        }
+        .salesforce:after {
+          background: linear-gradient(to right, #0099ff 100%, #0099ff 100%);
+          position: absolute;
+          content: '';
+          height: 2px;
+          right: 30%;
+          left: 3%;
+          bottom: 100px;
+        }
+        .custom:after {
+          background: linear-gradient(to right, #ffff00 100%, #ffff00 100%);
+          position: absolute;
+          content: '';
+          height: 2px;
+          right: 30%;
+          left: 3%;
+          bottom: 100px;
+        }
+        .pipeline:after {
+          background: linear-gradient(to right, #d3d3d3 100%, #d3d3d3 100%);
+          position: absolute;
+          content: '';
+          height: 2px;
+          right: 30%;
+          left: 3%;
+          bottom: 100px;
+        }
+        .qbsalesforce {
+          //background: linear-gradient(to right, #008b00 50%,#0099ff 50%);
+
+        }
+        .qbsalesforce {
+
+          position: absolute;
+          content: '';
+          height: 2px;
+          right: 30%;
+          left: 3%;
+          bottom: 2px;        
+        
+        }
+
+        </style>
+
+        <p id="demo">Here is some text</p>
+        
+        <input type="button" value="press" onclick="change()"/>
+        
+
+        
+        <p class="qbsalesforce" style="background: linear-gradient(to right, #008b00 50%,#0099ff 50%);"> here's some more text for the example</p>
+        
+        <script>
+        
+
+        
+        
+        
+var myMap = new Map();
+
+var keyString = 'a string',
+    keyObj = {},
+    keyFunc = function() {};
+
+// setting the values
+myMap.set(keyString, "value associated with 'a string'");
+myMap.set(keyObj, 'value associated with keyObj');
+myMap.set(keyFunc, 'value associated with keyFunc');
+
+myMap.size; // 3
+
+// getting the values
+myMap.get(keyString);    // "value associated with 'a string'"
+myMap.get(keyObj);       // "value associated with keyObj"
+myMap.get(keyFunc);      // "value associated with keyFunc"
+
+myMap.get('a string');   // "value associated with 'a string'"
+                         // because keyString === 'a string'
+myMap.get({});           // undefined, because keyObj !== {}
+myMap.get(function() {}) // undefined, because keyFunc !== function () {}
+
+console.log(myMap.size);
+        
+        </script>
+
+
+</apex:page>

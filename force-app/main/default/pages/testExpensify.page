@@ -1,0 +1,35 @@
+<apex:page >
+<body>
+
+<h2>Using the XMLHttpRequest object</h2>
+
+<button type="button" onclick="loadXMLDoc()">Change Content</button>
+
+<p id="demo"></p>
+
+<script>
+function loadXMLDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+      //document.getElementById("demo").innerHTML =
+      //this.status;
+    if (this.readyState == 4) {
+      document.getElementById("demo").innerHTML =
+      this.responseCode;
+    }
+  };
+  xhttp.open("POST", "https://integrations.expensify.com/Integration-Server/ExpensifyIntegrations", true);
+  xhttp.send(requestJobDescription={ 
+            "type": "download",
+            "credentials": {
+                "partnerUserID": "aa_ronan_williams_livegroup_co_uk",
+                "partnerUserSecret":  "2d1dbd632b71e1b89979306d1ea5465c136dbb87"
+            },
+            "fileName": "is_reconciliation_8121956394997754255.json",
+            "fileSystem": "reconciliation"
+        });
+}
+</script>
+
+</body>
+</apex:page>

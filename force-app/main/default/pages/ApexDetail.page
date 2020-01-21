@@ -1,0 +1,52 @@
+<apex:page standardController="Account">
+    <apex:form >
+    <apex:pageblock title="Account Overview">
+        <apex:pageblockButtons location="bottom">
+            <apex:commandButton action="{!Save}" value="Save"/>
+            <apex:commandButton action="{!QuickSave}" value="Quick Save"/>
+            <apex:commandButton action="{!Cancel}" value="Cancel"/>        
+        </apex:pageblockButtons>
+        <apex:pageblockSection columns="3" >
+            <apex:outputField value="{!Account.Name}"/>
+            <apex:outputField value="{!Account.Industry}"/>
+            <apex:outputField value="{!Account.Website}"/>
+            <apex:outputField value="{!Account.Phone}"/>           
+        </apex:pageblockSection>
+    </apex:pageblock>
+    <apex:pageBlock title="Details">
+        <apex:pageblockSection >
+            <apex:outputText value="{!Account.Name} is a {!Account.Type}"></apex:outputText>        
+        </apex:pageblockSection>
+    </apex:pageBlock>
+    <apex:pageBlock title="More Details" >
+        <apex:pageBlockSection >
+            <apex:outputText value="{0} is a {1},{2} and a {3}"/>
+                <apex:param value="{!Account.Name}"/>
+                <apex:param value="{!Account.Name}"/>
+                <apex:param value="{!Account.Name}"/>
+                <apex:param value="{!Account.Name}"/>
+            <apex:outputLabel value="Some text" for="theMessage"/>
+            <apex:outputText value="Hello,World!" id="theMessage"/>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    <apex:pageBlock title="Last Bits">
+        <apex:pageMessages />
+        <apex:pageblocksection columns="2">
+            <apex:pageblockSectionItem >
+                <apex:outputLabel value="Name & Code"/>
+                <apex:outputText value="{!Account.Name} & {!Account.Type}"></apex:outputText>
+            </apex:pageblockSectionItem>
+            <apex:pageblockSectionItem >
+                <apex:outputText value="{0,date,long}">
+                    <apex:outputLabel value="Created Date"/>
+                    <apex:param value="{!Account.CreatedDate}"/>
+                </apex:outputText>
+            </apex:pageblockSectionItem>
+            <apex:repeat value="{!$ObjectType.Account.FieldSets.VisualSet}" var="field">
+                <apex:inputField value="{!Account[field]}"/>
+            </apex:repeat>
+        </apex:pageblocksection>
+    </apex:pageBlock>
+    <apex:pageBlock title="Account Contacts"> </apex:pageBlock>
+    </apex:form>
+</apex:page>

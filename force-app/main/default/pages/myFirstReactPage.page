@@ -1,0 +1,78 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false">
+<html lang="en">
+<head>
+     <meta charset="utf-8"/>
+     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+     <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"/> 
+     <script src="//cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"/>
+     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"/>
+          
+
+</head>
+<body>
+     <div id="app-container"> </div>
+     <div>
+          <h2>hello</h2>
+     </div>
+</body>
+
+
+     <script type="text/jsx">
+          var Rep = React.createClass({
+               render: function() {
+                    return(
+                         <div>
+                              <iframe width="400" height="300" src="https://www.youtube.com/embed/GZdLudjkJSY"></iframe>     
+                         </div>
+                    );
+               }
+          });
+
+
+          var Rep2 = React.createClass({
+               render: function() {
+                    return(
+                         <div>
+                              UNICORN     
+                         </div>
+                    );
+               }
+          });
+
+          var RecipeBook = React.createClass({
+               render: function() {
+                    return (
+                         <div>
+                              <div>
+                                   Hello, world! I am a RecipeBook.
+                                   <h4> My first REACT </h4> 
+                              </div>
+                              <Rep/>
+                              <Rep2/>
+                         </div>
+                    
+                    );
+               }
+          });
+
+          React.render(
+               <RecipeBook/>,
+               document.getElementById('app-container')
+          );
+          
+class Hello extends React.Component {
+    render() {
+        return <h1>UNICORNS!</h1>;
+    }
+}
+          
+           React.hydrate(
+                              <Hello/>,
+               document.getElementById('app-container')
+          );
+          
+     </script>
+
+</html>
+</apex:page>

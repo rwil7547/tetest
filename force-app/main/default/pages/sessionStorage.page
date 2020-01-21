@@ -1,0 +1,19 @@
+<apex:page >
+    <div id="demo"></div>
+    <button type="button" onclick="addStorage()" >Add Storage</button>
+    <button type="button" onclick="getStorage()" >Get Storage</button>
+    <script>
+        var int = 1;
+        var name = '{!$User.FirstName}';
+        var email = '{!$User.Email}';
+    
+        function addStorage(){
+            sessionStorage.setItem('key', name + ' ' + email + ' ' + int);
+            int ++;
+        }
+        function getStorage(){
+            var data = sessionStorage.getItem('key');
+            document.getElementById("demo").innerHTML = data;
+        }
+    </script>
+</apex:page>

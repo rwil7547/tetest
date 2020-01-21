@@ -1,0 +1,289 @@
+<apex:page >
+
+    <style>
+        html {
+          box-sizing: border-box;
+          font-family: 'Open Sans', sans-serif;
+        }
+        
+        *, *:before, *:after {
+          box-sizing: inherit;
+        }
+        
+        .background {
+          padding: 0 25px 25px;
+          position: relative;
+          width: 100%;
+        }
+        
+        .background::after {
+          content: '';
+          background: #60a9ff;
+          background: -moz-linear-gradient(top, #60a9ff 0%, #4394f4 100%);
+          background: -webkit-linear-gradient(top, #60a9ff 0%,#4394f4 100%);
+          background: linear-gradient(to bottom, #60a9ff 0%,#4394f4 100%);
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#60a9ff', endColorstr='#4394f4',GradientType=0 );
+          height: 350px;
+          left: 0;
+          position: absolute;
+          top: 0;
+          width: 100%;
+          z-index: 1;
+        }
+        
+        @media (min-width: 900px) {
+          .background {
+            padding: 0 0 25px;
+          }
+        }
+        
+        .container {
+          margin: 0 auto;
+          padding: 50px 0 0;
+          max-width: 960px;
+          width: 100%;
+        }
+        
+        .panel {
+          background-color: #fff;
+          border-radius: 10px;
+          padding: 15px 25px;
+          position: relative;
+          width: 100%;
+          z-index: 10;
+        }
+        
+        .pricing-table {
+          box-shadow: 0px 10px 13px -6px rgba(0, 0, 0, 0.08), 0px 20px 31px 3px rgba(0, 0, 0, 0.09), 0px 8px 20px 7px rgba(0, 0, 0, 0.02);
+          display: flex;
+          flex-direction: column;
+        }
+        
+        @media (min-width: 900px) {
+          .pricing-table {
+            flex-direction: row;
+          }
+        }
+        
+        .pricing-table * {
+          text-align: center;
+          text-transform: uppercase;
+        }
+        
+        .pricing-plan {
+          border-bottom: 1px solid #e1f1ff;
+          padding: 25px;
+        }
+        
+        .pricing-plan:last-child {
+          border-bottom: none;
+        }
+        
+        @media (min-width: 900px) {
+          .pricing-plan {
+            border-bottom: none;
+            border-right: 1px solid #e1f1ff;
+            flex-basis: 100%;
+            padding: 25px 50px;
+          }
+        
+          .pricing-plan:last-child {
+            border-right: none;
+          }
+        }
+        
+        .pricing-img {
+          margin-bottom: 25px;
+          max-width: 100%;
+        }
+        
+        .pricing-header {
+          color: #888;
+          font-weight: 600;
+          letter-spacing: 1px;
+        }
+        
+        .pricing-features {
+          color: #016FF9;
+          font-weight: 600;
+          letter-spacing: 1px;
+          margin: 50px 0 25px;
+        }
+        
+        .pricing-features-item {
+          border-top: 1px solid #e1f1ff;
+          font-size: 12px;
+          line-height: 1.5;
+          padding: 15px 0;
+        }
+        
+        .pricing-features-item:last-child {
+          border-bottom: 1px solid #e1f1ff;
+        }
+        
+        .pricing-price {
+          color: #016FF9;
+          display: block;
+          font-size: 32px;
+          font-weight: 700;
+        }
+        
+        .pricing-button {
+          border: 1px solid #9dd1ff;
+          border-radius: 10px;
+          color: #348EFE;
+          display: inline-block;
+          margin: 25px 0;
+          padding: 15px 35px;
+          text-decoration: none;
+          transition: all 150ms ease-in-out;
+        }
+        
+        .pricing-button:hover,
+        .pricing-button:focus {
+          background-color: #e1f1ff;
+        }
+        
+        .pricing-button.is-featured {
+          background-color: #48aaff;
+          color: #fff;
+        }
+        
+        .pricing-button.is-featured:hover,
+        .pricing-button.is-featured:active {
+          background-color: #269aff;
+        }
+
+        body {
+          font-family: 'lato', sans-serif;
+        }
+        .container-list {
+          max-width: 1000px;
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+        
+        h2 {
+          font-size: 26px;
+          margin: 20px 0;
+          text-align: center;
+          small {
+            font-size: 0.5em;
+          }
+        }
+        
+        .responsive-table {
+          li {
+            border-radius: 3px;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+          }
+          .table-header {
+            background-color: #95A5A6;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+          }
+          .table-row {
+            background-color: #ffffff;
+            box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+          }
+          .col-1 {
+            flex-basis: 10%;
+          }
+          .col-2 {
+            flex-basis: 40%;
+          }
+          .col-3 {
+            flex-basis: 25%;
+          }
+          .col-4 {
+            flex-basis: 25%;
+          }
+          
+          @media all and (max-width: 767px) {
+            .table-header {
+              display: none;
+            }
+            .table-row{
+              
+            }
+            li {
+              display: block;
+            }
+            .col {
+              
+              flex-basis: 100%;
+              
+            }
+            .col {
+              display: flex;
+              padding: 10px 0;
+
+            }
+          }
+        }
+
+
+    </style>
+
+    <div class="background">
+      <div class="container">
+        <div class="panel pricing-table">
+          
+          <div class="pricing-plan">
+            <img src="https://s22.postimg.cc/8mv5gn7w1/paper-plane.png" alt="" class="pricing-img"/>
+            <h2 class="pricing-header">Personal</h2>
+            <ul class="pricing-features">
+              <li class="pricing-features-item">Custom domains</li>
+              <li class="pricing-features-item">Sleeps after 30 mins of inactivity</li>
+            </ul>
+            <span class="pricing-price">Free</span>
+            <a href="#/" class="pricing-button">Sign up</a>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+    
+    <div class="container-list">
+      <h2>Responsive Tables Using LI <small>Triggers on 767px</small></h2>
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-1">Job Id</div>
+          <div class="col col-2">Customer Name</div>
+          <div class="col col-3">Amount Due</div>
+          <div class="col col-4">Payment Status</div>
+        </li>
+        <li class="table-row">
+          <div class="col col-1" data-label="Job Id">42235</div>
+          <div class="col col-2" data-label="Customer Name">John Doe</div>
+          <div class="col col-3" data-label="Amount">$350</div>
+          <div class="col col-4" data-label="Payment Status">Pending</div>
+        </li>
+        <li class="table-row">
+          <div class="col col-1" data-label="Job Id">42442</div>
+          <div class="col col-2" data-label="Customer Name">Jennifer Smith</div>
+          <div class="col col-3" data-label="Amount">$220</div>
+          <div class="col col-4" data-label="Payment Status">Pending</div>
+        </li>
+        <li class="table-row">
+          <div class="col col-1" data-label="Job Id">42257</div>
+          <div class="col col-2" data-label="Customer Name">John Smith</div>
+          <div class="col col-3" data-label="Amount">$341</div>
+          <div class="col col-4" data-label="Payment Status">Pending</div>
+        </li>
+        <li class="table-row">
+          <div class="col col-1" data-label="Job Id">42311</div>
+          <div class="col col-2" data-label="Customer Name">John Carpenter</div>
+          <div class="col col-3" data-label="Amount">$115</div>
+          <div class="col col-4" data-label="Payment Status">Pending</div>
+        </li>
+      </ul>
+    </div>    
+    
+</apex:page>

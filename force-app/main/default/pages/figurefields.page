@@ -1,0 +1,25 @@
+<apex:page standardController="Account">
+    <apex:includeScript value="{! $Resource.jQuery}"/>
+    
+    <script type="text/javascript">
+        jQuery.noConflict();
+        jQuery(document).ready(function() {
+            jQuery("#message").html("Hello from jQuery!");
+        });
+    </script>
+    
+    
+    
+    <apex:pageBlock title="my block">
+        <h1 id="message"></h1>
+    </apex:pageBlock>    
+    
+    <apex:outputLabel id="message" value="Account Id"/>
+    <apex:outputField value="{!Account.Id}"/>
+    <apex:outputText value="Another label">
+    "{!Account.Id}"
+ 
+ 
+    </apex:outputText>
+ 
+</apex:page>

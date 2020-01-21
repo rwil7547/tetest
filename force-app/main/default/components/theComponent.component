@@ -1,0 +1,11 @@
+<apex:component >
+    <apex:attribute name="myValue" type="string" description=""/>
+    
+   	<apex:pageBlock >
+    	<h1>
+            {!myValue}
+        </h1>
+    
+    </apex:pageBlock>
+    
+</apex:component>

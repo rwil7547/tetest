@@ -1,0 +1,8 @@
+<apex:page >
+    <apex:composition template="firstComposition">
+    <apex:define name="header">///(page) This is the header of mypage</apex:define>
+    <apex:define name="body">////(page) This is the body of mypage</apex:define>
+    </apex:composition>
+    <c:theComponent myvalue="Have a good day">
+    </c:theComponent>
+</apex:page>

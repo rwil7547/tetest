@@ -1,0 +1,30 @@
+<apex:page standardController="Contact" extensions="AccountExtension1">
+
+    <apex:pageBlock >
+        <apex:form >
+            <apex:commandButton value="Save" action="{!Save}"/>
+            <apex:pageBlockSection >
+                <apex:outputField value="{!Contact.FirstName}">
+                    <apex:inlineEditSupport event="ondblclick" showOnEdit="saveButton, cancelButton"
+                                            hideOnEdit="editButton"
+                                            changedStyleClass="myBoldClass" resetFunction="resetInlineEdit"  />                
+                </apex:outputField>
+                <apex:outputField value="{!Contact.LastName}"/>
+                <apex:outputField value="{!Contact.Phone}"/>
+                <apex:outputField value="{!Contact.Email}"/>
+            </apex:pageBlockSection>
+        </apex:form>
+    </apex:pageBlock>
+    
+    
+    <apex:form >
+        <apex:pageBlock title="Contact Summary">
+            <apex:pageBlockSection >
+                <apex:inputField value="{! Contact.FirstName }"/> <br/>
+                <apex:inputField value="{! Contact.LastName }"/> <br/>
+                <apex:inputField value="{! Contact.Owner.Email }"/> <br/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+
+</apex:page>

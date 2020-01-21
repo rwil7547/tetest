@@ -1,0 +1,55 @@
+<apex:page >
+
+    <style>
+    .container {
+    width: 90vw;
+    height: 90vh;
+    background-color: grey;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    }
+    .innerCont{
+    width: 90%;
+    min-height:100px;
+    background-color: red;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: auto auto auto ;
+    }
+    .object {
+    background-color: green;
+    height: 80%;
+    padding: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 3px;
+    margin-right: 3px;
+    }
+    
+    </style>
+
+
+    <div class="container">
+        <div class="innerCont">
+            <div class="object" style="margin-left:90px;margin-right:180px;width:35vw;">
+            
+            </div>        
+
+            <div class="object">
+            
+            </div>
+            <div class="object">
+            
+            </div>
+            <div class="object">
+            
+            </div>
+        </div>
+    
+    
+    </div>
+
+</apex:page>
